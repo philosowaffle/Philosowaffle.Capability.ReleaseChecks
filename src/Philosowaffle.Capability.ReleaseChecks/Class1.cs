@@ -1,7 +1,5 @@
-﻿namespace Philosowaffle.Capability.ReleaseChecks
-{
-    public class Class1
-    {
+﻿namespace Philosowaffle.Capability.ReleaseChecks;
 
-    }
+public class Class1
+{
 }
