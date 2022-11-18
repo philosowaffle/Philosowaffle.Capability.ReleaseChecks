@@ -1,4 +1,4 @@
-﻿namespace Core.GitHub.Dto;
+﻿namespace Philosowaffle.Capability.ReleaseChecks.GitHub;
 
 record GitHubLatestReleaseResponse
 {
