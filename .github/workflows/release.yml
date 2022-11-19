@@ -34,10 +34,7 @@ jobs:
         run: dotnet clean src/Philosowaffle.Capability.ReleaseChecks/Philosowaffle.Capability.ReleaseChecks.csproj --configuration Debug && dotnet nuget locals all --clear
 
       - name: Pack Nuget
-        run: dotnet pack src/Philosowaffle.Capability.ReleaseChecks/Philosowaffle.Capability.ReleaseChecks.csproj
-
-      - name: Pack Nuget
-        run: dotnet nuget pack -p:PackageVersion=${{github.inputs.version}} --output ../../nuget
+        run: dotnet pack src/Philosowaffle.Capability.ReleaseChecks/Philosowaffle.Capability.ReleaseChecks.csproj -p:PackageVersion=${{github.inputs.version}} --output ../../nuget
 
       - if: github.inputs.publishNuget == 'true'
         name: Push Nuget
