@@ -3,9 +3,10 @@
 	<PropertyGroup>
 	<TargetFramework>net6.0</TargetFramework>
 		<PackageId>Philosowaffle.Capability.ReleaseChecks</PackageId>
-		<Version>1.0.0-rc</Version>
 	<ImplicitUsings>enable</ImplicitUsings>
 	<Nullable>enable</Nullable>
+	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+
 	</PropertyGroup>
 
 	<ItemGroup>

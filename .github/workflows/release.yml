@@ -1,0 +1,61 @@
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Release Version'
+        required: true
+      isReleaseCandidate:
+        description: 'Is Release Candidate'
+        required: true
+        default: 'true'
+      publishNuget:
+        description: 'Publish Nuget'
+        required: true
+        default: 'true'
+
+jobs:
+  
+  release-nuget:
+    name: Publish Nuget
+    runs-on: ubuntu-latest
+
+    steps:
+      
+      - uses: actions/checkout@v3
+
+      - name: Setup .NET Core SDK  6.0
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '6.0'
+
+      - name: Clean
+        run: dotnet clean src/Philosowaffle.Capability.ReleaseChecks/Philosowaffle.Capability.ReleaseChecks.csproj --configuration Debug && dotnet nuget locals all --clear
+
+      - name: Pack Nuget
+        run: dotnet pack src/Philosowaffle.Capability.ReleaseChecks/Philosowaffle.Capability.ReleaseChecks.csproj
+
+      - name: Pack Nuget
+        run: dotnet nuget pack -p:PackageVersion=${{github.inputs.version}} --output ../../nuget
+
+      - if: github.inputs.publishNuget == 'true'
+        name: Push Nuget
+        run: dotnet nuget push nuget/Philosowaffle.Capability.ReleaseChecks.${{github.inputs.version}}.nupkg --api-key ${{ secrets.NUGET_APIKEY }} --source https://api.nuget.org/v3/index.json
+
+  create-gh-release:
+    name: Create GitHub Release
+    runs-on: ubuntu-latest
+    needs: release-nuget
+    if: github.inputs.isReleaseCandidate == 'false'
+
+    steps:
+
+      - name: Create Release and Upload Artifact
+        uses: ncipollo/release-action@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          tag: ${{ github.event.inputs.version }}
+          allowUpdates: true
+          replacesArtifacts: true
+          bodyFile:  ${{ github.workspace }}/vNextReleaseNotes.md
