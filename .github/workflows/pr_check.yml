@@ -1,0 +1,36 @@
+name: PR Check
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+
+  build-and-test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        dotnet: [ '6.0' ]
+        os: [ubuntu-latest, windows-latest, macos-latest]
+
+    steps:
+
+    - uses: actions/checkout@v3
+
+    - name: Setup .NET Core SDK ${{ matrix.dotnet }}
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: ${{ matrix.dotnet }}
+
+    - name: Clean
+      run: dotnet clean src/Philosowaffle.Capability.ReleaseChecks.sln --configuration Debug && dotnet nuget locals all --clear
+    
+    - name: Restore
+      run: dotnet restore src/Philosowaffle.Capability.ReleaseChecks.sln
+
+    - name: Build
+      run: dotnet build src/Philosowaffle.Capability.ReleaseChecks.sln --no-restore --configuration Debug
+
+    - name: Test
+      run: dotnet test src/Philosowaffle.Capability.ReleaseChecks.sln
