@@ -22,6 +22,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
         NUGET_API_KEY: ${{ secrets.NUGET_APIKEY }}
+        VERSION: ${{ github.inputs.version }}
 
     steps:
       
@@ -36,11 +37,11 @@ jobs:
         run: dotnet clean src/Philosowaffle.Capability.ReleaseChecks/Philosowaffle.Capability.ReleaseChecks.csproj --configuration Debug && dotnet nuget locals all --clear
 
       - name: Pack Nuget
-        run: dotnet pack src/Philosowaffle.Capability.ReleaseChecks/Philosowaffle.Capability.ReleaseChecks.csproj -p:PackageVersion=${INPUTS_VERSION} --output ../../nuget
+        run: dotnet pack src/Philosowaffle.Capability.ReleaseChecks/Philosowaffle.Capability.ReleaseChecks.csproj -p:PackageVersion=${VERSION} --output ../../nuget
 
       - if: github.inputs.publishNuget == 'true'
         name: Push Nuget
-        run: dotnet nuget push nuget/Philosowaffle.Capability.ReleaseChecks.${INPUTS_VERSION}.nupkg --api-key ${NUGET_API_KEY} --source https://api.nuget.org/v3/index.json
+        run: dotnet nuget push nuget/Philosowaffle.Capability.ReleaseChecks.${VERSION}.nupkg --api-key ${NUGET_API_KEY} --source https://api.nuget.org/v3/index.json
 
   create-gh-release:
     name: Create GitHub Release
