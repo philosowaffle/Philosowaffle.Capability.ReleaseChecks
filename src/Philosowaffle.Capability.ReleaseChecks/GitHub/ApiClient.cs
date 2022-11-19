@@ -2,12 +2,12 @@
 
 namespace Philosowaffle.Capability.ReleaseChecks.GitHub;
 
-interface IGitHubApiClient
+internal interface IGitHubApiClient
 {
 	Task<GitHubLatestReleaseResponse> GetLatestReleaseAsync(string organization, string repository);
 }
 
-sealed class ApiClient : IGitHubApiClient
+internal sealed class ApiClient : IGitHubApiClient
 {
 	private const string BASE_URL = "https://api.github.com";
 

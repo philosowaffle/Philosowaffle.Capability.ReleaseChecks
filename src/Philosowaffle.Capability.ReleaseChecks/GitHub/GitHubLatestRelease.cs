@@ -1,6 +1,6 @@
 ﻿namespace Philosowaffle.Capability.ReleaseChecks.GitHub;
 
-record GitHubLatestReleaseResponse
+internal sealed record GitHubLatestReleaseResponse
 {
 	public string? Html_Url { get; init; }
 	public string? Tag_Name { get; init; }
