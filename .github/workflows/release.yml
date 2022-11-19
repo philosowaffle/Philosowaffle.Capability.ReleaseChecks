@@ -22,7 +22,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
         NUGET_API_KEY: ${{ secrets.NUGET_APIKEY }}
-        VERSION: ${{ github.inputs.version }}
+        VERSION: ${{ github.event.inputs.version }}
 
     steps:
       
