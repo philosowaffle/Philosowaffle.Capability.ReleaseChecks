@@ -14,7 +14,6 @@
 	  <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="7.0.0" />
 	  <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="7.0.0" />
 	  <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
-	  <PackageReference Include="OpenTelemetry.Instrumentation.Http" Version="1.0.0-rc9" />
 	</ItemGroup>
 
 	<ItemGroup>
