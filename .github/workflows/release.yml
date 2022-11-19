@@ -39,7 +39,7 @@ jobs:
       - name: Pack Nuget
         run: dotnet pack src/Philosowaffle.Capability.ReleaseChecks/Philosowaffle.Capability.ReleaseChecks.csproj -p:PackageVersion=${VERSION} --output ../../nuget
 
-      - if: github.inputs.publishNuget == 'true'
+      - if: github.event.inputs.publishNuget == 'true'
         name: Push Nuget
         run: dotnet nuget push nuget/Philosowaffle.Capability.ReleaseChecks.${VERSION}.nupkg --api-key ${NUGET_API_KEY} --source https://api.nuget.org/v3/index.json
 
@@ -47,7 +47,7 @@ jobs:
     name: Create GitHub Release
     runs-on: ubuntu-latest
     needs: release-nuget
-    if: github.inputs.createGHRelease == 'true'
+    if: github.event.inputs.createGHRelease == 'true'
 
     steps:
 
