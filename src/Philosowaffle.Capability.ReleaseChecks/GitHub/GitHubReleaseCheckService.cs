@@ -59,7 +59,8 @@ internal sealed class GitHubReleaseCheckService : IGitHubReleaseCheckService
 						ReleaseDate = latestVersionInformation.Published_At,
 						ReleaseUrl = latestVersionInformation.Html_Url,
 						Description = latestVersionInformation.Body,
-						IsReleaseNewerThanInstalledVersion = newVersionAvailable
+						IsReleaseNewerThanInstalledVersion = newVersionAvailable,
+						IsInstalledVersionReleaseCandidate = IsVersionReleaseCandidate(installedVersion, _logger)
 					};
 				}
 				catch (Exception e)
@@ -87,7 +88,7 @@ internal sealed class GitHubReleaseCheckService : IGitHubReleaseCheckService
 			return false;
 		}
 
-		var isCurrentVersionRC = currentVersion.Trim().ToLower().Contains("-rc");
+		var isCurrentVersionRC = IsVersionReleaseCandidate(currentVersion, logger);
 
 		var cleanedReleaseVersion = releaseVersion.Trim().ToLower().Replace("v", string.Empty);
 		var cleanedInstalledVersion = currentVersion.Trim().ToLower().Replace("-rc", string.Empty);
@@ -108,5 +109,16 @@ internal sealed class GitHubReleaseCheckService : IGitHubReleaseCheckService
 			return latestVersion >= installedVersion;
 
 		return latestVersion > installedVersion;
+	}
+
+	private static bool IsVersionReleaseCandidate(string? version, ILogger logger)
+	{
+		if (string.IsNullOrWhiteSpace(version))
+		{
+			logger.LogTrace("Version is null");
+			return false;
+		}
+
+		return version.Trim().ToLower().Contains("-rc");
 	}
 }

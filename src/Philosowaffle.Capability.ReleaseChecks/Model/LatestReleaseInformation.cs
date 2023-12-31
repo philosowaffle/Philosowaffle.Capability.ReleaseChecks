@@ -7,4 +7,5 @@ public struct LatestReleaseInformation
 	public string? ReleaseUrl;
 	public string? Description;
 	public bool IsReleaseNewerThanInstalledVersion;
+	public bool IsInstalledVersionReleaseCandidate;
 }

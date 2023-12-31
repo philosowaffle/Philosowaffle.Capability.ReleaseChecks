@@ -3,4 +3,4 @@
 
 # Features
 
-- [#1] init library
+- [#6] Expose new field `IsInstalledVersionReleaseCandidate`
