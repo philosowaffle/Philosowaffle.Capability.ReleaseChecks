@@ -1,7 +1,6 @@
 ﻿using Core.GitHub;
 using FluentAssertions;
 using Microsoft.Extensions.Caching.Memory;
-using Microsoft.Extensions.Logging;
 using Moq;
 using Moq.AutoMock;
 using Philosowaffle.Capability.ReleaseChecks.GitHub;
@@ -101,7 +100,7 @@ public class GitHubServiceTests
 
 	[TestCase("1.0.0", "1.0.0-rc", ExpectedResult = true)]
 	[TestCase("0.9.0", "1.0.0-rc", ExpectedResult = false)]
-	public async Task<bool> GetLatestReleaseAsync_Calculates_IsNewVersion_Correctly(string ghVersion, string installedVersion)
+	public async Task<bool> GetLatestReleaseAsync_Calculates_IsNewVersion_Correctly(string? ghVersion, string? installedVersion)
 	{
 		// SETUP
 		var autoMocker = new AutoMocker();
@@ -121,7 +120,7 @@ public class GitHubServiceTests
 			.Verifiable();
 
 		// ACT
-		var result = await service.GetLatestReleaseInformationAsync("myOrg", "myRepo", installedVersion);
+		var result = await service.GetLatestReleaseInformationAsync("myOrg", "myRepo", installedVersion!);
 
 		// ASSERT
 		if (installedVersion is not null
