@@ -3,4 +3,4 @@
 
 # Features
 
-- [#6] Expose new field `IsInstalledVersionReleaseCandidate`
+- chore: dependency bump
